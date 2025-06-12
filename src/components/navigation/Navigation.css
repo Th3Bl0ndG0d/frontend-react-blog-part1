@@ -1,0 +1,47 @@
+.navigation {
+    background-color: #1f1f24;
+    padding: 16px 32px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 32px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-logo {
+    height: 30px;
+    /*width: auto;*/
+    object-fit: contain;
+    display: block;
+}
+
+.nav-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+}
+
+.nav-title .green {
+    color: #3cd67c;
+}
+
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.nav-links li a.active {
+    font-weight: bold;
+    text-decoration: underline;
+    color: #3cd67c;
+}

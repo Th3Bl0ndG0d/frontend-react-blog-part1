@@ -1,0 +1,41 @@
+
+.new-post-form label {
+    display: flex;
+    flex-direction: column;
+    font-weight: 500;
+    color: #374151;
+    font-size: 14px;
+}
+
+.new-post-form input,
+.new-post-form textarea {
+    margin-top: 6px;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    background-color: white;
+    box-shadow: inset 0 0 0 1px #d1d5db;
+}
+
+.new-post-form textarea {
+    resize: vertical;
+}
+
+.new-post-form button {
+    margin-top: 8px;
+    padding: 12px;
+    background-color: #3cd67c;
+    color: #1f1f24;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.new-post-form button:hover {
+    background-color: #34c26f;
+}
