@@ -39,3 +39,23 @@
 .new-post-form button:hover {
     background-color: #34c26f;
 }
+.form-error {
+    color: crimson;
+    font-size: 14px;
+    margin-top: 8px;
+    margin-bottom: 12px;
+}
+
+.form-success {
+    color: green;
+    font-size: 14px;
+    margin-top: 8px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.success-icon {
+    flex-shrink: 0;
+}
