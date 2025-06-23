@@ -29,7 +29,8 @@ function App() {
                 {/*<AllPosts/>*/}
                 {/*<Post/>*/}
                 </Routes>
-                <ToastContainer position="bottom-center" autoClose={3000} />
+                {/*Timeout even naar 1,5 sec. En gelijk een pull request maken*/}
+                <ToastContainer position="bottom-center" autoClose={1500} />
                 <Footer />
             </div>
 
