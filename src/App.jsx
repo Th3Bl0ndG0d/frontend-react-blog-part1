@@ -18,9 +18,13 @@ function App() {
                 <Route path="/" element={<Home/>}/>
                 <Route path="/NewPost" element={<NewPost/>}/>
                 <Route path="/AllPosts" element={<AllPosts/>}/>
-{/*Opdracht 1.3 Dynamic routing.....*/}
-                    <Route path="/posts/:id" element={<BlogPost />} />
+{/*/!*Opdracht 1.3 Dynamic routing.....*!/*/}
+{/*                    <Route path="/posts/:id" element={<BlogPost />} />*/}
 
+{/* Post-ID via query params: /posts?id=... */
+//Dit was wel even zoeken. Maar gelukt. Nu vanuit posts een post weergeven :D
+}
+               <Route path="/posts" element={<BlogPost />} />
                 {/*<NotFound/>*/}
                 {/*<AllPosts/>*/}
                 {/*<Post/>*/}
