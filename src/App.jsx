@@ -7,7 +7,7 @@ import AllPosts from "./pages/allposts/AllPosts.jsx";
 import BlogPost from "./pages/post/BlogPost.jsx";
 import Footer from "./components/footer/Footer.jsx";
 import FetchSinglePostButton from "./components/BlogRequestExample.jsx";
-
+import {ToastContainer} from "react-toastify";
 function App() {
     return (
         <>
@@ -25,6 +25,7 @@ function App() {
                 {/*<AllPosts/>*/}
                 {/*<Post/>*/}
                 </Routes>
+                <ToastContainer position="bottom-center" autoClose={3000} />
                 <Footer />
             </div>
 
