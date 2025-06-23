@@ -6,13 +6,14 @@ import Home from "./pages/home/Home.jsx";
 import AllPosts from "./pages/allposts/AllPosts.jsx";
 import BlogPost from "./pages/post/BlogPost.jsx";
 import Footer from "./components/footer/Footer.jsx";
-
+import FetchSinglePostButton from "./components/BlogRequestExample.jsx";
 
 function App() {
     return (
         <>
             <div className="page-container">
                 <Navigation/>
+                <FetchSinglePostButton/>
                 <Routes>
                 <Route path="/" element={<Home/>}/>
                 <Route path="/NewPost" element={<NewPost/>}/>
