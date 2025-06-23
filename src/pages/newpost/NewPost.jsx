@@ -102,45 +102,46 @@
 // }
 //
 // export default NewPost;
-
 import './NewPost.css';
 import Button from "../../components/button/Button.jsx";
 import { useState } from "react";
 import { calculateReadTime } from "../../helper/calculateReadTime.js";
 import { useNavigate, Link } from "react-router-dom";
-import { CheckCircle } from "phosphor-react";
+import { toast } from "react-toastify";
 import axios from "axios";
+import { CheckCircle, WarningCircle } from "phosphor-react";
 
 function NewPost() {
-    // Toestand voor foutmeldingen, successtatus en aangemaakte post-ID
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState(false);
+    // Toestand voor ID van aangemaakte post
     const [createdId, setCreatedId] = useState(null);
 
     const navigate = useNavigate();
 
     // Handler voor het indienen van het formulier
-    // Valideert invoer, verstuurt data naar backend, en verwerkt resultaat
+    // Voert validatie uit, stuurt data naar backend, en toont melding
     async function handleSubmit(e) {
-        e.preventDefault(); // voorkom standaard form-actie
-        setError('');
-        setSuccess(false);
-        setCreatedId(null);
+        e.preventDefault(); // voorkom standaard gedrag
+        setCreatedId(null); // reset ID bij nieuwe poging
 
-        // Extractie en normalisatie van formulierwaarden
+        // Ophalen en trimmen van invoervelden
         const form = e.target;
         const title = form.title.value.trim();
         const subtitle = form.subtitle.value.trim();
         const author = form.author.value.trim();
         const content = form.content.value.trim();
 
-        // Validatie: contentlengte moet tussen 300–2000 tekens liggen
+        // Content moet minimaal 300 en maximaal 2000 tekens bevatten
         if (content.length < 300 || content.length > 2000) {
-            setError('content');
+            toast.error(
+                <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <WarningCircle size={20} weight="regular" />
+                    De blogpost moet tussen de 300 en 2000 karakters bevatten.
+                </span>
+            );
             return;
         }
 
-        // Constructie van nieuw blogpost-object
+        // Object met blogpostgegevens voor verzending
         const newPost = {
             title,
             subtitle,
@@ -153,7 +154,7 @@ function NewPost() {
         };
 
         try {
-            // POST-request naar backend API met bijbehorende headers
+            // Verstuur POST-verzoek naar backend API
             const response = await axios.post(
                 'https://novi-backend-api-wgsgz.ondigitalocean.app/api/blogposts',
                 newPost,
@@ -164,14 +165,24 @@ function NewPost() {
                 }
             );
 
-            // Bij succesvolle response: formulier resetten en successtatus activeren
+            // Formulier resetten en succesmelding tonen
             form.reset();
-            setCreatedId(response.data.id); // post-ID uit backend-respons
-            setSuccess(true);
+            setCreatedId(response.data.id); // post-ID opslaan
+            toast.success(
+                <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <CheckCircle size={20} weight="bold" />
+                    Je blogpost is succesvol toegevoegd!!!!!!!!
+                </span>
+            );
         } catch (e) {
-            // Fout bij communicatie met backend
+            // Backend foutmelding weergeven
             console.error('Post toevoegen mislukt:', e);
-            setError('api');
+            toast.error(
+                <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <WarningCircle size={20} weight="fill" />
+                    Er ging iets mis bij het verzenden. Probeer het later opnieuw.
+                </span>
+            );
         }
     }
 
@@ -179,63 +190,44 @@ function NewPost() {
         <div className="outer-container newpost-wrapper">
             <div className="inner-container new-post-form">
 
-                {/* Succesbericht: post is toegevoegd, met link naar detailpagina */}
-                {success && createdId && (
-                    <p className="form-success">
-                        <CheckCircle size={18} weight="bold" className="success-icon" />
-                        De blogpost is succesvol toegevoegd. Je kunt deze {' '}
-                        <Link to={`/posts?id=${createdId}`}>hier bekijken</Link>.
+                {/* Formulier voor het toevoegen van een blogpost */}
+                <form onSubmit={handleSubmit}>
+                    <h1>Post toevoegen</h1>
+
+                    <label>
+                        Titel
+                        <input type="text" name="title" required />
+                    </label>
+
+                    <label>
+                        Subtitle
+                        <input type="text" name="subtitle" required />
+                    </label>
+
+                    <label>
+                        Naam en achternaam
+                        <input type="text" name="author" required />
+                    </label>
+
+                    <label>
+                        Blogpost
+                        <textarea
+                            name="content"
+                            rows="8"
+                            required
+                            minLength={300}
+                            maxLength={2000}
+                        ></textarea>
+                    </label>
+
+                    <Button type="submit">Toevoegen</Button>
+                </form>
+
+                {/* Link naar de nieuw aangemaakte post */}
+                {createdId && (
+                    <p className="form-success-link">
+                        Je kunt je blogpost <Link to={`/posts?id=${createdId}`}>hier bekijken</Link>.
                     </p>
-                )}
-
-                {/* Formulier wordt enkel getoond indien geen succesvolle verzending */}
-                {!success && (
-                    <form onSubmit={handleSubmit} onChange={() => setError('')}>
-                        <h1>Post toevoegen</h1>
-
-                        <label>
-                            Titel
-                            <input type="text" name="title" required />
-                        </label>
-
-                        <label>
-                            Subtitle
-                            <input type="text" name="subtitle" required />
-                        </label>
-
-                        <label>
-                            Naam en achternaam
-                            <input type="text" name="author" required />
-                        </label>
-
-                        <label>
-                            Blogpost
-                            <textarea
-                                name="content"
-                                rows="8"
-                                required
-                                minLength={300}
-                                maxLength={2000}
-                                className={error === 'content' ? 'input-error' : ''}
-                            ></textarea>
-                        </label>
-
-                        {/* Valideer contentlengte */}
-                        {error === 'content' && (
-                            <p className="form-error">
-                                De blogpost moet tussen de 300 en 2000 karakters lang zijn.
-                            </p>
-                        )}
-
-                        {/* Algemene fout bij verzending naar backend */}
-                        {error === 'api' && (
-                            <p className="form-error">
-                                Er ging iets mis bij het verzenden. Probeer het later opnieuw.
-                            </p>
-                        )}
-
-                        <Button type="submit">Toevoegen</Button>
-                    </form>
                 )}
             </div>
         </div>
